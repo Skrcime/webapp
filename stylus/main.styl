@@ -1,0 +1,43 @@
+@import 'nib'
+
+nav-height = 60px
+container-width = 1024px
+footer-height = 40px
+
+global-reset()
+
+@import 'typography'
+
+body
+  display flex
+  flex-direction column
+  height 100vh
+  font-family 'Oxygen', sans-serif
+
+nav
+  height nav-height
+  line-height nav-height
+  background-color beige
+
+main
+  flex-grow 1
+  background-color aliceblue
+  
+footer
+  height footer-height
+  text-align center
+  font-size .8rem
+  line-height footer-height
+  background-color beige
+  
+a
+  text-decoration none
+  color darkcyan
+  &:hover
+    text-decoration underline
+  
+.container
+  max-width container-width
+  margin 0 auto
+  
+@import 'landing'

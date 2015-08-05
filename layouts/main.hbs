@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    
+    <meta name="robots" content="noindex">
+    
+    <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/main.css">
+    
+    <script src="/main{{#if @koa.production}}.min{{/if}}.js"></script>
+  </head>
+  <body>
+    {{{@body}}}
+  </body>
+</html>

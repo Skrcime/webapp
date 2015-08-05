@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "curly": [2, "multi-line"],
+    "quotes": [2, "single", "avoid-escape"],
+    "no-underscore-dangle": false,
+    "no-alert": false,
+    "no-extra-bind": false,
+    "no-use-before-define": false
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  }
+}
