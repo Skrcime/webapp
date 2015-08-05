@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "iojs --harmony_arrow_functions --harmony_object_literals .",
-    "test": "npm test",
+    "test": "mocha test/",
     "build": "npm run build:css",
     "css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -w",
     "build:css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -c"
@@ -36,7 +36,9 @@
     "koa-handlebars": "~0.5.7"
   },
   "devDependencies": {
+    "mocha": "~2.2.5",
+    "nib": "^1.1.0",
     "should": "~7.0.2",
-    "mocha": "~2.2.5"
+    "stylus": "^0.52.0"
   }
 }
