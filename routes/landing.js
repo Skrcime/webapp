@@ -6,6 +6,6 @@ module.exports = function *(){
   log.debug('Render landing');
 
   yield this.render('landing', {
-    title: 'Nil Gradisnik - Home'
+    title: 'Skrcime - Home'
   });
 };

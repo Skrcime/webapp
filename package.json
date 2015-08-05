@@ -4,7 +4,15 @@
   "description": "Slovenian URL shortner",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/"
+    "start": "iojs --harmony_arrow_functions --harmony_object_literals .",
+    "test": "npm test",
+    "build": "npm run build:css",
+    "css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -w",
+    "build:css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -c"
+  },
+  "config": {
+    "host": "localhost",
+    "port": 3000
   },
   "repository": {
     "type": "git",
