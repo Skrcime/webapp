@@ -1,25 +1,17 @@
-@import 'nib'
-
-nav-height = 60px
-container-width = 1024px
-footer-height = 40px
-
-global-reset()
-
-@import 'typography'
-
 body
   display flex
   flex-direction column
   height 100vh
-  font-family 'Oxygen', sans-serif
 
 nav
   height nav-height
   line-height nav-height
   background-color beige
   ul
+    display flex
     margin 0 20px
+  .logo
+    flex 1
 
 main
   flex-grow 1
@@ -41,5 +33,3 @@ a
 .container
   max-width container-width
   margin 0 auto
-  
-@import 'landing'

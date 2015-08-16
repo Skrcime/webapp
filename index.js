@@ -1,29 +1,43 @@
 'use strict';
 
-let koa = require('koa');
-let app = koa();
+const koa = require('koa');
+const app = koa();
 
-let route = require('koa-route');
-let serve = require('koa-static');
-let hbs = require('koa-handlebars');
+const route = require('koa-route');
 
-let log = require('./log');
-let landing = require('./routes/landing');
+const log = require('./log');
 
-const config = require('./package.json').config;
+const render = require('./routes/render');
+const api = require('./routes/api');
 
-app.use(hbs({
+const pkg = require('./package.json');
+const port = process.env.PORT || 3000;
+
+const privateUrls = ['/racun'];
+
+// Middleware
+app.use(require('koa-handlebars')({
   defaultLayout: 'main',
   cache: app.env !== 'development'
 }));
+app.use(require('koa-static')('static'));
+app.use(require('koa-bodyparser')());
 
-app.use(serve('static'));
-app.use(function *(next) {
-  this.production = (app.env === 'production');
-  yield next;
-});
+// Custom middleware
+app.use(require('./middleware/jwt')(privateUrls));
+app.use(require('./middleware/parameters')());
+app.use(require('./middleware/knex')({client: 'pg'}));
 
-app.use(route.get('/', landing));
+// Routes
+app.use(route.get('/', render.landing));
+app.use(route.get('/prijava', render.login));
+app.use(route.get('/odjava', render.logout));
+app.use(route.get('/registracija', render.register));
 
-app.listen(config.port);
-log.info(`Server running on ${config.host}:${config.port}`);
+// API
+app.use(route.post('/api/skrci', api.shorten));
+app.use(route.post('/api/login', api.login));
+app.use(route.post('/api/register', api.register));
+
+app.listen(port);
+log.info(`Server running on port:${port}`);

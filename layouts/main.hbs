@@ -6,11 +6,17 @@
     <meta name="robots" content="noindex">
     
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/skrcime.css">
     
-    <script src="/main{{#if @koa.production}}.min{{/if}}.js"></script>
+    <script>var SKRCIME = {{{@koa.bootstrap}}};</script>
+    <script src="/skrcime.js"></script>
+    {{> js}}
   </head>
   <body>
+    {{> header}}
+    
     {{{@body}}}
+    
+    {{> footer}}
   </body>
 </html>

@@ -6,13 +6,12 @@
   "scripts": {
     "start": "iojs --harmony_arrow_functions --harmony_object_literals .",
     "test": "mocha test/",
-    "build": "npm run build:css",
-    "css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -w",
-    "build:css": "./node_modules/stylus/bin/stylus -u nib stylus/main.styl -o static/ -c"
-  },
-  "config": {
-    "host": "localhost",
-    "port": 3000
+    "build": "npm run build:css && npm run build:js",
+    "css": "./node_modules/stylus/bin/stylus -u nib -u jeet stylus/skrcime.styl -o static/ -w",
+    "js": "./node_modules/watchify/bin/cmd.js js/skrcime.js -o static/skrcime.js -dv",
+    "watch": "npm run css & npm run js",
+    "build:css": "./node_modules/stylus/bin/stylus -u nib -u jeet stylus/skrcime.styl -o static/ -c",
+    "build:js": "./node_modules/browserify/bin/cmd.js js/skrcime.js | ./node_modules/uglify-js/bin/uglifyjs - > static/skrcime.js"
   },
   "repository": {
     "type": "git",
@@ -29,16 +28,25 @@
     "url": "https://github.com/Skrcime/webapp/issues"
   },
   "dependencies": {
-    "koa-route": "~2.4.2",
+    "bcryptjs": "^2.2.1",
+    "jsonwebtoken": "^5.0.4",
+    "knex": "^0.8.6",
     "koa": "~0.21.0",
+    "koa-bodyparser": "^2.0.0",
+    "koa-handlebars": "~0.5.7",
+    "koa-route": "~2.4.2",
     "koa-static": "~1.4.9",
     "logme": "~0.4.0",
-    "koa-handlebars": "~0.5.7"
+    "pg": "^4.4.1"
   },
   "devDependencies": {
+    "browserify": "^11.0.1",
+    "jeet": "^6.1.2",
     "mocha": "~2.2.5",
     "nib": "^1.1.0",
     "should": "~7.0.2",
-    "stylus": "^0.52.0"
+    "stylus": "^0.52.0",
+    "uglify-js": "^2.4.24",
+    "watchify": "^3.3.1"
   }
 }
