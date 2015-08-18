@@ -1,5 +1,3 @@
-'use strict';
-
 const koa = require('koa');
 const app = koa();
 
@@ -40,4 +38,4 @@ app.use(route.post('/api/login', api.login));
 app.use(route.post('/api/register', api.register));
 
 app.listen(port);
-log.info(`Server running on port:${port}`);
+log.info(`Skrcime running on port:${port}`);

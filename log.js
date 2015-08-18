@@ -1,4 +1,3 @@
-
-var Logme = require('logme').Logme;
+const Logme = require('logme').Logme;
 
 module.exports = new Logme({theme: 'smile'});

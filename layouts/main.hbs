@@ -8,9 +8,9 @@
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/skrcime.css">
     
-    <script>var SKRCIME = {{{@koa.bootstrap}}};</script>
+    <script>window.SKRCIME = {{{@koa.bootstrap}}};</script>
     <script src="/skrcime.js"></script>
-    {{> js}}
+    <script>window.SKRCIME.pages.{{@view}}();</script>
   </head>
   <body>
     {{> header}}

@@ -16,7 +16,7 @@ module.exports = function() {
     
     var payload = utils.formParse($form);
     request.post('/api/login', payload, function(err, res) {
-      if (err) return console.log(err);
+      if (err) return console.error(err);
       window.location = '/';
     });
   }

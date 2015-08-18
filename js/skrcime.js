@@ -1,6 +1,6 @@
 console.log('Skrci.me v' + SKRCIME.version);
 
-window.skrcime = {
+window.SKRCIME.pages = {
   landing: require('./landing'),
   login: require('./login'),
   register: require('./register')

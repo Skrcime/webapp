@@ -1,8 +1,14 @@
 <nav>
   <div class="container">
+    <a class="logo" href="/">Skrci.me</a>
     <ul>
-      <li class="logo"><a href="/">Skrci.me</a></li>
+      {{#if @koa.user}}
       <li>{{@koa.user.email}}</li>
+      <li><a href="/odjava">Odjava</a></li>
+      {{else}}
+      <li><a href="/prijava">Prijava</a></li>
+      <li><a href="/registracija">Registracija</a></li>
+      {{/if}}
     </ul>
   </div>
 </nav>

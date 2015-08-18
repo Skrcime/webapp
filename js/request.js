@@ -6,7 +6,9 @@ exports.post = function(url, data, fn) {
   req.onload = function() {
     if (typeof fn === 'function') {
       try {
-        fn(null, JSON.parse(req.response));
+        var err = null;
+        if (req.status >= 300) err = new Error('HTTP ' + req.status);
+        fn(err, JSON.parse(req.response));
       } catch(e) {
         fn(e);
       }
