@@ -1,23 +1,25 @@
 var utils = require('./utils');
 var request = require('./request');
 
-module.exports = function() {
-  var $button, $form;
-  
+var ui = {};
+
+module.exports = function() {  
   utils.ready(function() {
-    $button = document.querySelectorAll('.js-login')[0];
-    $form = document.querySelectorAll('form')[0];
+    ui = {
+      login: document.querySelectorAll('.js-login')[0],
+      form: document.querySelectorAll('form')[0]
+    };
 
-    $button.addEventListener('click', clickLogin);
+    ui.login.addEventListener('click', clickLogin);
   });
-
-  function clickLogin(e) {
-    e.preventDefault();
-    
-    var payload = utils.formParse($form);
-    request.post('/api/login', payload, function(err, res) {
-      if (err) return console.error(err);
-      window.location = '/';
-    });
-  }
 };
+
+function clickLogin(e) {
+  e.preventDefault();
+
+  var payload = utils.formParse(ui.form);
+  request.post('/api/login', payload, function(err, res) {
+    if (err) return console.error(err);
+    window.location = '/';
+  });
+}

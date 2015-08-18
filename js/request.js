@@ -1,3 +1,4 @@
+// HTTP POST
 exports.post = function(url, data, fn) {
   var req = new XMLHttpRequest();
   req.open('POST', url, true);
@@ -19,6 +20,7 @@ exports.post = function(url, data, fn) {
   req.send(JSON.stringify(data));
 };
 
+// HTTP GET
 exports.get = function(url, fn) {
   var req = new XMLHttpRequest();
   req.open('GET', url, true);

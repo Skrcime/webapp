@@ -1,26 +1,28 @@
 var utils = require('./utils');
 var request = require('./request');
 
-module.exports = function() {
-  var $button, $input; 
-  
+var ui = {};
+
+module.exports = function() {  
   utils.ready(function() {
-    $button = document.querySelectorAll('.js-shorten')[0];
-    $input = document.querySelectorAll('.js-longurl')[0]; 
-
-    $button.addEventListener('click', clickShorten);
-  });
-
-  function clickShorten(e) {
-    e.preventDefault();
-
-    var payload = {
-      url: $input.value
+    ui = {
+      shorten: document.querySelectorAll('.js-shorten')[0],
+      input: document.querySelectorAll('.js-longurl')[0]
     };
 
-    request.post('/api/skrci', payload, function(err, res) {
-      if (err) return console.log(err);
-      console.log(res);
-    });
-  };
+    ui.shorten.addEventListener('click', clickShorten);
+  });
 };
+
+function clickShorten(e) {
+  e.preventDefault();
+
+  var payload = {
+    url: ui.input.value
+  };
+
+  request.post('/api/skrci', payload, function(err, res) {
+    if (err) return console.log(err);
+    console.log(res);
+  });
+}
