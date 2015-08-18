@@ -1,5 +1,8 @@
 const pkg = require('../package.json');
 
+/**
+ * Parameters for handlebars templates
+ */
 module.exports = () => {
   return function *(next) {
     this.production = (process.env.NODE_ENV === 'production');

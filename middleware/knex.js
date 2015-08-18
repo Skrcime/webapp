@@ -1,5 +1,8 @@
 const knex = require('knex');
 
+/**
+ * Knex middleware
+ */
 module.exports = (opts) => {
   var conn = opts.connection || {};
   var env = process.env;

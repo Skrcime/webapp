@@ -1,17 +1,15 @@
-const koa = require('koa');
-const app = koa();
-
+const app = require('koa')();
 const route = require('koa-route');
 
 const log = require('./log');
-
 const render = require('./routes/render');
 const api = require('./routes/api');
 
-const pkg = require('./package.json');
 const port = process.env.PORT || 3000;
 
-const privateUrls = ['/racun'];
+const privateUrls = [
+  '/racun'
+];
 
 // Middleware
 app.use(require('koa-handlebars')({
@@ -26,7 +24,7 @@ app.use(require('./middleware/jwt')(privateUrls));
 app.use(require('./middleware/parameters')());
 app.use(require('./middleware/knex')({client: 'pg'}));
 
-// Routes
+// Pages
 app.use(route.get('/', render.landing));
 app.use(route.get('/prijava', render.login));
 app.use(route.get('/odjava', render.logout));
