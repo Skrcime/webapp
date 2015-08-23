@@ -15,3 +15,11 @@ exports.logout = function *(){
 exports.register = function *(){
   yield this.render('register', {title: 'Skrcime - Registracija'});
 };
+
+exports.history = function *(){
+  var urls = yield this.knex('urls').where('user', this.user.sub);
+  yield this.render('history', {
+    title: 'Skrcime - Zgodovina',
+    urls: urls
+  });
+};

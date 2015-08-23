@@ -1,3 +1,5 @@
+var urlRegex = require('url-regex')({exact: true});
+
 // Document ready callback
 exports.ready = function ready(fn) {
   if (document.readyState !== 'loading') fn();
@@ -13,4 +15,8 @@ exports.formParse = function(form) {
   });
   
   return data;
+};
+
+exports.isURL = function(val) {
+  return urlRegex.test(val);
 };

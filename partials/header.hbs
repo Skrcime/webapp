@@ -4,6 +4,7 @@
     <ul>
       {{#if @koa.user}}
       <li>{{@koa.user.email}}</li>
+      <li><a href="/zgodovina">Zgodovina</a></li>
       <li><a href="/odjava">Odjava</a></li>
       {{else}}
       <li><a href="/prijava">Prijava</a></li>
