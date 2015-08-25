@@ -29,7 +29,7 @@ app.use(require('./middleware/knex')({client: 'pg'}));
 
 // Landing
 const landingRoute = new Router();
-landingRoute.get('/', render.landing);
+landingRoute.get('/', subdomain(), render.landing);
 
 // App
 const appRoute = new Router();
@@ -41,7 +41,7 @@ urls.api.forEach(route => apiRoute.post(route, subdomain('api'), api[route.subst
 
 // Redirect
 const redirectRoute = new Router();
-redirectRoute.get('/:hash', redirect);
+redirectRoute.get('/:hash', subdomain(), redirect);
 
 app.use(landingRoute.routes());
 app.use(appRoute.routes());

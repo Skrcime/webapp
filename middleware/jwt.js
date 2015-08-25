@@ -7,7 +7,7 @@ exports.cookieKey = 'skrcime.jwt';
 exports.cookieOptions = {
   httpOnly: true,
   maxAge: sessionExpiration,
-  domain: `.${process.env.ENDPOINT}`
+  domain: `.${domain}`
 };
 exports.jwtOptions = {
   algorithm: 'RS256',
@@ -34,7 +34,7 @@ exports.session = privateUrls => {
     }
     
     // Redirect private URLs
-    if (privateUrls.indexOf(this.request.path) !== -1 && !this.user) return this.redirect(`http://${domain}`);
+    if (privateUrls.indexOf(this.request.path) !== -1 && !this.user) return this.redirect('/');
     
     yield next;
   };

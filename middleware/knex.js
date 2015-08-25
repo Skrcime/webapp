@@ -3,11 +3,11 @@ const knex = require('knex');
 /**
  * Knex middleware
  */
-module.exports = (opts) => {
+module.exports = opts => {
   var conn = opts.connection || {};
   var env = process.env;
   
-  return function *middleware(next) {
+  return function *(next) {
     global.__knex || (global.__knex = knex({
       client: opts.client,
       connection: {
