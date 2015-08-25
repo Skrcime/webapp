@@ -1,10 +1,10 @@
-var utils = require('./utils');
+var common = require('../common');
 var request = require('./request');
 
 var ui = {};
 
 module.exports = function() {
-  utils.ready(function() {
+  common.ready(function() {
     ui = {
       register: document.querySelectorAll('.js-register')[0],
       form: document.querySelectorAll('form')[0]
@@ -17,9 +17,14 @@ module.exports = function() {
 function clickRegister(e) {
   e.preventDefault();
 
-  var payload = utils.formParse(ui.form);
-  request.post('/api/register', payload, function(err, res) {
-    if (err) return console.log(err);
-    console.log(res);
+  var user = common.formParse(ui.form);
+  var valid = common.loginValid(user);
+  if (valid !== true) {
+    return alert(valid);
+  }
+  
+  request.post('/registracija', user, function(err, res) {
+    if (err) return alert(res.message);
+    alert('ok');
   });
 }

@@ -1,24 +1,30 @@
-body
-  display flex
-  flex-direction column
-  height 100vh
+html, body
+  height 100%
+  
+.wrapper
+  display table
+  height 100%
+  width 100%
+
+nav, footer
+  display table-row
 
 nav
   height nav-height
   line-height nav-height
   background-color beige
-  .container
-    display flex
-    padding 0 20px
+  .logo
+    float left
   ul
-    display flex
-    justify-content flex-end
-    width 100%
+    float right
   li
+    display inline-block
     margin-left 20px
 
 main
-  flex-grow 1
+  display table-row
+  height 100%
+  width 100%
   background-color aliceblue
   
 footer
@@ -28,12 +34,7 @@ footer
   line-height footer-height
   background-color beige
   
-a
-  text-decoration none
-  color darkcyan
-  &:hover
-    text-decoration underline
-  
 .container
   max-width container-width
   margin 0 auto
+  padding 0 20px

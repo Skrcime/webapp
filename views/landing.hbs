@@ -1,16 +1,18 @@
-<main>
-  <section class="landing-hero">
-    <div class="container">
-      <h1>Skrci.me</h1>
-    </div>
-  </section>
+<section class="landing-hero">
+  <div class="container">
+    <h1>Skrci.me</h1>
+  </div>
+</section>
 
-  <section class="landing-content">
-    <div class="container">
-      <form method="post" action="/api/skrci">
-        <input type="text" name="url" placeholder="Prilepi dolg URL tukaj">
-        <button class="btn js-shorten">Skrci</button>
-      </form>
+<section class="landing-content">
+  <div class="container">
+    <form method="post" action="/api/skrci">
+      <input type="text" name="url" placeholder="Prilepi dolg URL tukaj" autofocus>
+      <button class="btn js-shorten">Skrci</button>
+    </form>
+    
+    <div class="result">
+      <input type="text" readonly>
     </div>
-  </section>
-</main>
+  </div>
+</section>

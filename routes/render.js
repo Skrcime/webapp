@@ -1,25 +1,24 @@
-const utils = require('../utils');
 const log = require('../log');
+const jwt = require('../middleware/jwt');
 
 exports.landing = function *(){
   yield this.render('landing', {title: 'Skrcime'});
 };
 
-exports.login = function *(){
+exports.prijava = function *(){
   yield this.render('login', {title: 'Skrcime - Prijava'});
 };
-exports.logout = function *(){
-  this.cookies.set(utils.cookieKey);
+exports.odjava = function *(){
+  this.cookies.set(jwt.cookieKey, null, jwt.cookieOptions);
   this.redirect('/');
 };
-exports.register = function *(){
+exports.registracija = function *(){
   yield this.render('register', {title: 'Skrcime - Registracija'});
 };
 
-exports.history = function *(){
-  var urls = yield this.knex('urls').where('user', this.user.sub);
+exports.zgodovina = function *(){
   yield this.render('history', {
     title: 'Skrcime - Zgodovina',
-    urls: urls
+    urls: yield this.knex('urls').where('user', this.user.sub)
   });
 };

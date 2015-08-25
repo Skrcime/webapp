@@ -1,11 +1,14 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
-const utils = require('../utils');
 const log = require('../log');
+const common = require('../common');
+const jwt = require('../middleware/jwt')
 
-exports.shorten = function *(){
-  var url = utils.shorten(this.request.body.url, this.user, 'web');
+const hashLength = 4;
+
+exports.skrci = function *(){
+  var url = shorten(this.request.body.url, this.user, 'web');
   if (!url) {
     this.status = 400;
     return this.body = {success: false, message: 'Invalid URL'};
@@ -17,7 +20,7 @@ exports.shorten = function *(){
   } catch(err) {
     if (err.code === '23505') {
       log.debug('API.shorten hash conflict #1 trying new');
-      url.hash = utils.randomHash();
+      url.hash = randomHash();
       try {
         yield this.knex('urls').insert(url);
       } catch(e) {
@@ -32,50 +35,68 @@ exports.shorten = function *(){
   this.body = {success: true, hash: url.hash};
 };
 
-exports.login = function *(){
-  var email = this.request.body.email;
-  if (!email) return this.status = 400;
-  var password = this.request.body.password;
-  if (!password) return this.status = 400;
+exports.prijava = function *(){
+  var user = this.request.body;
+  var valid = common.loginValid(user);
+  if (valid !== true) {
+    this.status = 400;
+    return this.body = {success: false, message: valid};
+  }
 
-  log.info(`API.login ${email}`);
+  log.info(`API.login ${user.email}`);
   try {
-    var users = yield this.knex('users').where('email', email);
+    var users = yield this.knex('users').where('email', user.email);
     if (users.length === 1) {
-      var user = users[0];
+      var password = user.password;
+      user = users[0];
       if (bcrypt.compareSync(password, user.password)) {
-        this.cookies.set(utils.cookieKey, utils.jwt(user), utils.cookieOptions);
-        log.debug(`API.login ${email} ok`);
+        this.cookies.set(jwt.cookieKey, jwt.user(user), jwt.cookieOptions);
+        log.debug(`API.login ${user.email} ok`);
         return this.body = {};
       }
     }
-    log.warning(`API.login ${email} unauthorized`);
+    log.warning(`API.login ${user.email} unauthorized`);
     
     this.status = 401;
-    this.body = {success: false};
+    this.body = {success: false, message: 'Unauthorized'};
   } catch(err) {
     log.error(`API.login ${err}`);
     
     this.status = 500;
-    this.body = {success: false, error: err};
+    this.body = {success: false, message: 'Server error', error: err};
   }
 };
 
-exports.register = function *(){
-  var user = {
-    name: this.request.body.name,
-    email: this.request.body.email,
-    password: bcrypt.hashSync(this.request.body.password, 8)
-  };
+exports.registracija = function *(){
+  var user = this.request.body;
+  var valid = common.registerValid(user);
+  if (valid !== true) {
+    this.status = 400;
+    return this.body = {success: false, message: valid};
+  }
   
   log.debug(`API.register ${user.email}`);
   try {
+    user.password = bcrypt.hashSync(user.password, 8);
     yield this.knex('users').insert(user);
     this.body = {success: true};
   } catch(err) {
     log.error(`API.register ${err}`);
     
     this.status = 500;
-    this.body = {success: false, error: err};
+    this.body = {success: false, message: 'Server error', error: err};
   }
 };
+
+function shorten(url, user, source) {
+  if (!common.isURL(url)) return false;
+  return {
+    hash: randomHash(),
+    full: url,
+    source: source || 'web',
+    user: user ? user.sub : null
+  };
+}
+function randomHash() {
+  return crypto.randomBytes(hashLength / 2).toString('hex');
+}

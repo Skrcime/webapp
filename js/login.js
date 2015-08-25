@@ -1,10 +1,10 @@
-var utils = require('./utils');
+var common = require('../common');
 var request = require('./request');
 
 var ui = {};
 
 module.exports = function() {  
-  utils.ready(function() {
+  common.ready(function() {
     ui = {
       login: document.querySelectorAll('.js-login')[0],
       form: document.querySelectorAll('form')[0]
@@ -16,10 +16,15 @@ module.exports = function() {
 
 function clickLogin(e) {
   e.preventDefault();
+  
+  var user = common.formParse(ui.form);
+  var valid = common.loginValid(user);
+  if (valid !== true) {
+    return alert(valid);
+  }
 
-  var payload = utils.formParse(ui.form);
-  request.post('/api/login', payload, function(err, res) {
-    if (err) return console.error(err);
-    window.location = '/';
+  request.post('/prijava', user, function(err, res) {
+    if (err) return alert(res.message);
+    window.location = 'http://' + window.SKRCIME.domain;
   });
 }

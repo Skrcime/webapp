@@ -1,0 +1,16 @@
+{
+  "app": [
+    "/prijava",
+    "/registracija",
+    "/odjava",
+    "/zgodovina"
+  ],
+  "api": [
+    "/skrci",
+    "/prijava",
+    "/registracija"
+  ],
+  "private": [
+    "/zgodovina"
+  ]
+}

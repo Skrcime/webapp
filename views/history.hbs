@@ -1,20 +1,22 @@
-<main>
-  <section class="history-content">
-    <div class="container">
-       <table>
+<section class="history-content">
+  <div class="container">
+     <table>
+      <thead>
         <tr>
           <td>Hash</td>
           <td>Dolg URL</td>
           <td>Ustvarjen</td>
         </tr>
-        {{#each urls}}
+      </thead>
+      <tbody>
+      {{#each urls}}
         <tr>
           <td>{{hash}}</td>
           <td>{{full}}</td>
-          <td>{{created}}</td>
+          <td>{{timeFormatted created}}</td>
         </tr>
-        {{/each}}
-      </table> 
-    </div>
-  </section>
-</main>
+      {{/each}}
+      </tbody>
+    </table> 
+  </div>
+</section>

@@ -1,44 +1,52 @@
 const app = require('koa')();
-const route = require('koa-route');
+const Router = require('koa-router');
 
 const log = require('./log');
 const redirect = require('./routes/redirect');
 const render = require('./routes/render');
 const api = require('./routes/api');
 
-const port = process.env.PORT || 3000;
+const subdomain = require('./middleware/subdomain');
 
-const privateUrls = [
-  '/zgodovina'
-];
+const urls = require('./urls.json');
+
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(require('koa-handlebars')({
   defaultLayout: 'main',
-  cache: app.env !== 'development'
+  cache: app.env !== 'development',
+  helpers: require('./middleware/hbsHelpers')
 }));
 app.use(require('koa-static')('static'));
 app.use(require('koa-bodyparser')());
+app.use(require('kcors')({credentials: true}));
 
 // Custom middleware
-app.use(require('./middleware/jwt')(privateUrls));
+app.use(require('./middleware/jwt').session(urls.private));
 app.use(require('./middleware/parameters')());
 app.use(require('./middleware/knex')({client: 'pg'}));
 
-// Redirect
-app.use(route.get('/:hash', redirect));
+// Landing
+const landingRoute = new Router();
+landingRoute.get('/', render.landing);
 
-// Pages
-app.use(route.get('/', render.landing));
-app.use(route.get('/zgodovina', render.history));
-app.use(route.get('/prijava', render.login));
-app.use(route.get('/odjava', render.logout));
-app.use(route.get('/registracija', render.register));
+// App
+const appRoute = new Router();
+urls.app.forEach(route => appRoute.get(route, subdomain('app'), render[route.substr(1)]));
 
 // API
-app.use(route.post('/api/skrci', api.shorten));
-app.use(route.post('/api/login', api.login));
-app.use(route.post('/api/register', api.register));
+const apiRoute = new Router();
+urls.api.forEach(route => apiRoute.post(route, subdomain('api'), api[route.substr(1)]));
+
+// Redirect
+const redirectRoute = new Router();
+redirectRoute.get('/:hash', redirect);
+
+app.use(landingRoute.routes());
+app.use(appRoute.routes());
+app.use(apiRoute.routes());
+app.use(redirectRoute.routes());
 
 app.listen(port);
 log.info(`Skrcime running on port:${port}`);

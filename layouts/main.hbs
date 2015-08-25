@@ -7,17 +7,19 @@
     
     <link rel="shortcut icon" href="http://skrci.me/images/favicon.ico" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/skrcime.css">
+    {{#if @koa.production}}<style>{{> staticCss}}</style>{{else}}<link rel="stylesheet" href="/skrcime.css">{{/if}}
     
     <script>window.SKRCIME = {{{@koa.bootstrap}}};</script>
-    <script src="/skrcime.js"></script>
+    {{#if @koa.production}}<script>{{> staticJs}}</script>{{else}}<script src="/skrcime.js"></script>{{/if}}
     <script>window.SKRCIME.pages.{{@view}}();</script>
   </head>
   <body>
-    {{> header}}
-    
-    {{{@body}}}
-    
-    {{> footer}}
+    <div class="wrapper">
+      {{> header}}
+      <main>
+        {{{@body}}}
+      </main>
+      {{> footer}}
+    </div>
   </body>
 </html>

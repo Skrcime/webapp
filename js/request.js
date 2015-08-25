@@ -1,7 +1,10 @@
+var URL_PREFIX = 'http://api.' + window.SKRCIME.domain;
+
 // HTTP POST
 exports.post = function(url, data, fn) {
   var req = new XMLHttpRequest();
-  req.open('POST', url, true);
+  req.withCredentials = true;
+  req.open('POST', URL_PREFIX + url, true);
   req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
   req.onload = function() {
@@ -23,7 +26,8 @@ exports.post = function(url, data, fn) {
 // HTTP GET
 exports.get = function(url, fn) {
   var req = new XMLHttpRequest();
-  req.open('GET', url, true);
+  req.withCredentials = true;
+  req.open('GET', URL_PREFIX + url, true);
   req.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
   req.onload = function() {

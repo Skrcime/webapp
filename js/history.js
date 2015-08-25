@@ -1,10 +1,10 @@
-var utils = require('./utils');
+var common = require('../common');
 var request = require('./request');
 
 var ui = {};
 
 module.exports = function() {  
-  utils.ready(function() {
+  common.ready(function() {
     
   });
 };

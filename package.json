@@ -10,8 +10,8 @@
     "css": "./node_modules/stylus/bin/stylus -u nib -u jeet stylus/skrcime.styl -o static/ -w",
     "js": "./node_modules/watchify/bin/cmd.js js/skrcime.js -o static/skrcime.js -dv",
     "watch": "npm run css & npm run js",
-    "build:css": "./node_modules/stylus/bin/stylus -u nib -u jeet stylus/skrcime.styl -o static/ -c",
-    "build:js": "./node_modules/browserify/bin/cmd.js js/skrcime.js | ./node_modules/uglify-js/bin/uglifyjs - > static/skrcime.js"
+    "build:css": "./node_modules/stylus/bin/stylus -u nib -u jeet -I ./stylus/ < stylus/skrcime.styl > partials/static/css.hbs -c",
+    "build:js": "./node_modules/browserify/bin/cmd.js js/skrcime.js | ./node_modules/uglify-js/bin/uglifyjs - > partials/static/js.hbs"
   },
   "repository": {
     "type": "git",
@@ -29,14 +29,17 @@
   },
   "dependencies": {
     "bcryptjs": "^2.2.1",
+    "email-regex": "^1.0.0",
     "jsonwebtoken": "^5.0.4",
+    "kcors": "^1.0.1",
     "knex": "^0.8.6",
     "koa": "~0.21.0",
     "koa-bodyparser": "^2.0.0",
     "koa-handlebars": "~0.5.7",
-    "koa-route": "~2.4.2",
+    "koa-router": "^5.1.2",
     "koa-static": "~1.4.9",
     "logme": "~0.4.0",
+    "moment": "^2.10.6",
     "pg": "^4.4.1",
     "url-regex": "^3.0.0"
   },
