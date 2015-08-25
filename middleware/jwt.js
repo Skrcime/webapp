@@ -1,18 +1,21 @@
 const jwt = require('jsonwebtoken');
 
 const domain = process.env.ENDPOINT;
-const sessionExpiration = 172800000; // 48hours
+const publicKey = process.env.JWT_PUBLIC_KEY;
+const privateKey = process.env.JWT_PRIVATE_KEY
+
+const expiration = 172800000; // 48hours
+const jwtOptions = {
+  algorithm: 'RS256',
+  issuer: 'skrci.me',
+  expiresInSeconds: expiration / 1000
+};
 
 exports.cookieKey = 'skrcime.jwt';
 exports.cookieOptions = {
   httpOnly: true,
-  maxAge: sessionExpiration,
+  maxAge: expiration,
   domain: `.${domain}`
-};
-exports.jwtOptions = {
-  algorithm: 'RS256',
-  issuer: 'skrci.me',
-  expiresInSeconds: sessionExpiration / 1000
 };
 
 /**
@@ -29,7 +32,7 @@ exports.session = privateUrls => {
     
     if (token) {
       try { // Decode JWT
-        this.user = jwt.verify(token, process.env.JWT_PUBLIC_KEY, exports.jwtOptions);
+        this.user = jwt.verify(token, publicKey, jwtOptions);
       } catch(e) {}
     }
     
@@ -41,11 +44,11 @@ exports.session = privateUrls => {
 };
 
 exports.user = user => {
-  var options = exports.jwtOptions;
+  var options = Object.assign({}, jwtOptions);
   options.subject = user.id;
   
   return jwt.sign({
     email: user.email,
     name: user.name
-  }, process.env.JWT_PRIVATE_KEY, options);
+  }, privateKey, options);
 };
