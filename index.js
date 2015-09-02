@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 app.use(require('koa-handlebars')({
   defaultLayout: 'main',
   cache: app.env !== 'development',
-  helpers: require('./middleware/hbsHelpers')
+  helpers: require('./middleware/hbs')
 }));
 app.use(require('koa-static')('static'));
 app.use(require('koa-bodyparser')());

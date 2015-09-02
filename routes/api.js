@@ -13,7 +13,7 @@ exports.skrci = function *(){
     this.status = 400;
     return this.body = {success: false, message: 'Invalid URL'};
   }
-  log.info(`API.shorten url:${url.full}`);
+  log.info(`API.shorten user:${this.user ? this.user.sub : 'anon'} url:${url.full}`);
   
   try {
     yield this.knex('urls').insert(url);

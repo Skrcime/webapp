@@ -4,11 +4,11 @@
     <ul>
       {{#if @koa.user}}
       <li>{{@koa.user.email}}</li>
-      <li><a href="http://app.{{@koa.domain}}/zgodovina">Zgodovina</a></li>
-      <li><a href="http://app.{{@koa.domain}}/odjava">Odjava</a></li>
+      <li><a href="http://moj.{{@koa.domain}}/zgodovina">Zgodovina</a></li>
+      <li><a href="http://moj.{{@koa.domain}}/odjava">Odjava</a></li>
       {{else}}
-      <li><a href="http://app.{{@koa.domain}}/prijava">Prijava</a></li>
-      <li><a href="http://app.{{@koa.domain}}/registracija">Registracija</a></li>
+      <li><a href="http://moj.{{@koa.domain}}/prijava">Prijava</a></li>
+      <li><a href="http://moj.{{@koa.domain}}/registracija">Registracija</a></li>
       {{/if}}
     </ul>
   </div>
