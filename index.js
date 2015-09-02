@@ -33,7 +33,7 @@ landingRoute.get('/', subdomain(), render.landing);
 
 // App
 const appRoute = new Router();
-urls.app.forEach(route => appRoute.get(route, subdomain('moj'), render[route.substr(1)]));
+urls.moj.forEach(route => appRoute.get(route, subdomain('moj'), render[route.substr(1)]));
 
 // API
 const apiRoute = new Router();

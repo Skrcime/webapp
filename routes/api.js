@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 const log = require('../log');
 const common = require('../common');
-const jwt = require('../middleware/jwt')
+const jwt = require('../middleware/jwt');
 
 const hashLength = 4;
 
