@@ -1,3 +1,5 @@
+'use strict';
+
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
@@ -6,6 +8,18 @@ const common = require('../common');
 const jwt = require('../middleware/jwt');
 
 const hashLength = 4;
+function randomHash() {
+  return crypto.randomBytes(hashLength / 2).toString('hex');
+}
+function shorten(url, user, source) {
+  if (!common.isURL(url)) return false;
+  return {
+    hash: randomHash(),
+    full: url,
+    source: source || 'web',
+    user: user ? user.sub : null
+  };
+}
 
 exports.skrci = function *(){
   var url = shorten(this.request.body.url, this.user, 'web');
@@ -14,7 +28,7 @@ exports.skrci = function *(){
     return this.body = {success: false, message: 'Invalid URL'};
   }
   log.info(`API.shorten user:${this.user ? this.user.sub : 'anon'} url:${url.full}`);
-  
+
   try {
     yield this.knex('urls').insert(url);
   } catch(err) {
@@ -31,7 +45,7 @@ exports.skrci = function *(){
     log.error(`API.shorten ${err}`);
     return this.status = 500;
   }
-  
+
   this.body = {success: true, hash: url.hash};
 };
 
@@ -56,12 +70,12 @@ exports.prijava = function *(){
       }
     }
     log.warning(`API.login ${user.email} unauthorized`);
-    
+
     this.status = 401;
     this.body = {success: false, message: 'Unauthorized'};
   } catch(err) {
     log.error(`API.login ${err}`);
-    
+
     this.status = 500;
     this.body = {success: false, message: 'Server error', error: err};
   }
@@ -74,7 +88,7 @@ exports.registracija = function *(){
     this.status = 400;
     return this.body = {success: false, message: valid};
   }
-  
+
   log.debug(`API.register ${user.email}`);
   try {
     user.password = bcrypt.hashSync(user.password, 8);
@@ -82,21 +96,8 @@ exports.registracija = function *(){
     this.body = {success: true};
   } catch(err) {
     log.error(`API.register ${err}`);
-    
+
     this.status = 500;
     this.body = {success: false, message: 'Server error', error: err};
   }
 };
-
-function shorten(url, user, source) {
-  if (!common.isURL(url)) return false;
-  return {
-    hash: randomHash(),
-    full: url,
-    source: source || 'web',
-    user: user ? user.sub : null
-  };
-}
-function randomHash() {
-  return crypto.randomBytes(hashLength / 2).toString('hex');
-}

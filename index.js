@@ -1,3 +1,5 @@
+'use strict';
+
 const app = require('koa')();
 const Router = require('koa-router');
 

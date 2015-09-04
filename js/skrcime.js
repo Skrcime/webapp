@@ -1,3 +1,5 @@
+'use strict';
+
 window.SKRCIME.pages = {
   landing: require('./landing'),
   login: require('./login'),

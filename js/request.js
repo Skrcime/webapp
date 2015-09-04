@@ -1,3 +1,5 @@
+'use strict';
+
 var URL_PREFIX = 'http://api.' + window.SKRCIME.domain;
 
 // HTTP POST

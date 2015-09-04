@@ -1,4 +1,5 @@
-const log = require('../log');
+'use strict';
+
 const jwt = require('../middleware/jwt');
 
 exports.landing = function *(){

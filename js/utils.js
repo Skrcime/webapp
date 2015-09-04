@@ -1,3 +1,5 @@
+'use strict';
+
 var urlRegex = require('url-regex')({exact: true});
 var emailRegex = require('email-regex')({exact: true});
 
@@ -11,11 +13,11 @@ exports.ready = function ready(fn) {
 // Parse form input data
 exports.formParse = function(form) {
   var data = {};
-  
-  Array.prototype.forEach.call(form.querySelectorAll('input'), function(el, i){
+
+  Array.prototype.forEach.call(form.querySelectorAll('input'), function(el){
     data[el.name] = el.value;
   });
-  
+
   return data;
 };
 
