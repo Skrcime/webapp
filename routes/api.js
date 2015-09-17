@@ -8,18 +8,6 @@ const common = require('../common');
 const jwt = require('../middleware/jwt');
 
 const hashLength = 4;
-function randomHash() {
-  return crypto.randomBytes(hashLength / 2).toString('hex');
-}
-function shorten(url, user, source) {
-  if (!common.isURL(url)) return false;
-  return {
-    hash: randomHash(),
-    full: url,
-    source: source || 'web',
-    user: user ? user.sub : null
-  };
-}
 
 exports.skrci = function *(){
   var url = shorten(this.request.body.url, this.user, 'web');
@@ -107,3 +95,16 @@ exports.registracija = function *(){
     this.body = {success: false, message: 'Server error', error: err};
   }
 };
+
+function randomHash() {
+  return crypto.randomBytes(hashLength / 2).toString('hex');
+}
+function shorten(url, user, source) {
+  if (!common.isURL(url)) return false;
+  return {
+    hash: randomHash(),
+    full: url,
+    source: source || 'web',
+    user: user ? user.sub : null
+  };
+}
