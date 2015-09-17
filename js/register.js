@@ -1,3 +1,5 @@
+'use strict';
+
 var common = require('../common');
 var request = require('./request');
 
@@ -22,7 +24,7 @@ function clickRegister(e) {
   if (valid !== true) {
     return alert(valid);
   }
-  
+
   request.post('/registracija', user, function(err, res) {
     if (err) return alert(res.message);
     alert('ok');

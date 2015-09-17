@@ -1,3 +1,5 @@
+'use strict';
+
 const knex = require('knex');
 
 /**
@@ -6,7 +8,7 @@ const knex = require('knex');
 module.exports = opts => {
   var conn = opts.connection || {};
   var env = process.env;
-  
+
   return function *(next) {
     global.__knex || (global.__knex = knex({
       client: opts.client,

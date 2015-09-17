@@ -1,14 +1,14 @@
+
 {
   "rules": {
     "curly": [2, "multi-line"],
     "quotes": [2, "single", "avoid-escape"],
-    "no-underscore-dangle": false,
-    "no-alert": false,
-    "no-extra-bind": false,
-    "no-use-before-define": false
+    "camelcase": [2, {"properties": "never"}],
+    "no-use-before-define": [1, "nofunc"]
   },
   "env": {
     "node": true,
+    "browser": true,
     "es6": true
   }
 }

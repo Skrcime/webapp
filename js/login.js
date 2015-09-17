@@ -1,9 +1,11 @@
+'use strict';
+
 var common = require('../common');
 var request = require('./request');
 
 var ui = {};
 
-module.exports = function() {  
+module.exports = function() {
   common.ready(function() {
     ui = {
       login: document.querySelectorAll('.js-login')[0],
@@ -16,7 +18,7 @@ module.exports = function() {
 
 function clickLogin(e) {
   e.preventDefault();
-  
+
   var user = common.formParse(ui.form);
   var valid = common.loginValid(user);
   if (valid !== true) {

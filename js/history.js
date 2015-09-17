@@ -1,10 +1,12 @@
+'use strict';
+
 var common = require('../common');
 var request = require('./request');
 
 var ui = {};
 
-module.exports = function() {  
+module.exports = function() {
   common.ready(function() {
-    
+
   });
 };

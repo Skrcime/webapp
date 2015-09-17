@@ -1,3 +1,5 @@
+'use strict';
+
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
@@ -11,10 +13,11 @@ exports.skrci = function *(){
   var url = shorten(this.request.body.url, this.user, 'web');
   if (!url) {
     this.status = 400;
-    return this.body = {success: false, message: 'Invalid URL'};
+    this.body = {success: false, message: 'Invalid URL'};
+    return;
   }
   log.info(`API.shorten user:${this.user ? this.user.sub : 'anon'} url:${url.full}`);
-  
+
   try {
     yield this.knex('urls').insert(url);
   } catch(err) {
@@ -25,13 +28,15 @@ exports.skrci = function *(){
         yield this.knex('urls').insert(url);
       } catch(e) {
         log.error('API.shorten hash conflict #2 backing off');
-        return this.status = 500;
+        this.status = 500;
+        return;
       }
     }
     log.error(`API.shorten ${err}`);
-    return this.status = 500;
+    this.status = 500;
+    return;
   }
-  
+
   this.body = {success: true, hash: url.hash};
 };
 
@@ -40,7 +45,8 @@ exports.prijava = function *(){
   var valid = common.loginValid(user);
   if (valid !== true) {
     this.status = 400;
-    return this.body = {success: false, message: valid};
+    this.body = {success: false, message: valid};
+    return;
   }
 
   log.info(`API.login ${user.email}`);
@@ -52,16 +58,17 @@ exports.prijava = function *(){
       if (bcrypt.compareSync(password, user.password)) {
         this.cookies.set(jwt.cookieKey, jwt.user(user), jwt.cookieOptions);
         log.debug(`API.login ${user.email} ok`);
-        return this.body = {};
+        this.body = {};
+        return;
       }
     }
     log.warning(`API.login ${user.email} unauthorized`);
-    
+
     this.status = 401;
     this.body = {success: false, message: 'Unauthorized'};
   } catch(err) {
     log.error(`API.login ${err}`);
-    
+
     this.status = 500;
     this.body = {success: false, message: 'Server error', error: err};
   }
@@ -72,9 +79,10 @@ exports.registracija = function *(){
   var valid = common.registerValid(user);
   if (valid !== true) {
     this.status = 400;
-    return this.body = {success: false, message: valid};
+    this.body = {success: false, message: valid};
+    return;
   }
-  
+
   log.debug(`API.register ${user.email}`);
   try {
     user.password = bcrypt.hashSync(user.password, 8);
@@ -82,7 +90,7 @@ exports.registracija = function *(){
     this.body = {success: true};
   } catch(err) {
     log.error(`API.register ${err}`);
-    
+
     this.status = 500;
     this.body = {success: false, message: 'Server error', error: err};
   }

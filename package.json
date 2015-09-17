@@ -4,7 +4,7 @@
   "description": "Slovenian URL shortner",
   "main": "index.js",
   "scripts": {
-    "start": "iojs --harmony_arrow_functions --harmony_object .",
+    "start": "node4 .",
     "test": "mocha test/",
     "build": "npm run build:css && npm run build:js",
     "css": "./node_modules/stylus/bin/stylus -u nib -u jeet stylus/skrcime.styl -o static/ -w",
